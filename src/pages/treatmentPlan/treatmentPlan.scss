@@ -1,0 +1,21 @@
+@use "../../sass/colors/colors" as *;
+@use "../../sass/mixins/grid" as *;
+.treatment-plan {
+  .treatment-plan__boxes {
+    @include grid(300px);
+    @media (max-width: 500px) {
+      @include grid(260px);
+    }
+    .personal_info {
+      input {
+        border: 3px solid $text;
+        &:focus {
+          border: 3px solid $sky;
+        }
+      }
+      .information {
+        @include grid(100px);
+      }
+    }
+  }
+}

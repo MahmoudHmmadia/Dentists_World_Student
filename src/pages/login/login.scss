@@ -1,0 +1,47 @@
+@use "../../sass/colors/colors" as *;
+@use "../../sass/mixins/grid" as *;
+.login,
+.register {
+  min-width: 40%;
+  @media (max-width: 991px) {
+    min-width: 70%;
+  }
+  @media (max-width: 767px) {
+    min-width: 90%;
+  }
+
+  .logo {
+    @media (max-width: 767px) {
+      max-width: 200px !important;
+    }
+  }
+  .input-filed {
+    border: 2px solid #fff;
+    label {
+      transform: translateY(-50%);
+      right: 15px;
+    }
+    &.move {
+      label {
+        font-size: 10px;
+        right: 8px;
+        top: -2px;
+        &::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          transform: 0.2s all ease-in-out;
+          height: 4px;
+          width: 115%;
+          background: #27aac8;
+          z-index: -1;
+        }
+      }
+    }
+  }
+  .year_chosen {
+    @include grid(100px);
+  }
+}

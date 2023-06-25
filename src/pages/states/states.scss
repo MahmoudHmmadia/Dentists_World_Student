@@ -1,0 +1,55 @@
+@use "../../sass/colors/colors" as *;
+@use "../../sass/mixins/grid" as *;
+.states {
+  .menu {
+    display: none;
+    @media (max-width: 767px) {
+      display: flex;
+    }
+  }
+  .clinics {
+    li:hover {
+      background: $gradient-sky;
+      color: #fff;
+    }
+    @media (min-width) {
+      position: relative;
+    }
+    @media (max-width: 767px) {
+      flex-direction: column;
+      transition: 0.2s all ease-in-out;
+      padding: 0;
+      transform: translateX(-0%);
+      position: absolute;
+      min-width: 150px;
+      left: 30px;
+      li {
+        width: 100%;
+      }
+      &.hide {
+        animation: hide 0.5s ease-in-out;
+        transform: translateX(-200%);
+      }
+      &.show {
+        animation: showen 0.5s ease-in-out;
+        transform: translateX(0);
+      }
+    }
+  }
+}
+@keyframes showen {
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes hide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}

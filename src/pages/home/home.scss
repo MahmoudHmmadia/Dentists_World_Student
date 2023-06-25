@@ -1,0 +1,64 @@
+@use "./../../sass/mixins/grid" as *;
+@use "./../../sass/colors/colors" as *;
+.home {
+  .home__boxes {
+    @include grid(400px);
+    @media (max-width: 991px) {
+      @include grid(310px);
+    }
+    @media (max-width: 600px) {
+      @include grid(250px);
+    }
+    .box {
+      border: 3px solid #edededee;
+      .main-title {
+        margin: 0 0 0 auto;
+      }
+
+      .welcome_image {
+        img {
+          width: 300px;
+        }
+      }
+      .welcome_info {
+        .details {
+          font-size: 22px;
+        }
+        .dent_image {
+          width: 150px;
+        }
+      }
+      .welcome__box {
+        @media (max-width: 500px) {
+          flex-direction: column;
+        }
+      }
+      .note_title,
+      .note_content {
+        border: 3px solid $text;
+      }
+      .note_title:focus,
+      .note_content:focus {
+        border: 3px solid $sky;
+      }
+      .notes {
+        @include grid(150px);
+        .note {
+          border: 1px solid $text;
+        }
+      }
+    }
+  }
+  .box {
+    border: 3px solid #edededee;
+  }
+  .clinic-name:not(:last-child) {
+    &::after {
+      content: "/";
+      position: absolute;
+      height: 100%;
+      left: -10px;
+      color: #aaa;
+    }
+  }
+}

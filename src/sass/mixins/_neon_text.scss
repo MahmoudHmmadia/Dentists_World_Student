@@ -1,0 +1,3 @@
+@mixin neon_text($color, $weight) {
+  text-shadow: 1px 1px $weight $color;
+}

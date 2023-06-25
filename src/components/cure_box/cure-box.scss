@@ -1,0 +1,47 @@
+@use "../../sass/colors/colors" as *;
+.cure-box {
+  .toggle {
+    width: 60px;
+    height: 30px;
+    border-radius: 35px;
+    &.on {
+      background-color: $sky;
+    }
+    .ball {
+      width: 25px;
+      height: 24px;
+      background-color: #fff;
+      top: 50%;
+      transform: translateY(-50%);
+      &.checked {
+        left: 4px;
+      }
+      &.closed {
+        left: 52%;
+      }
+    }
+  }
+  .clinic-plan {
+    .input-container {
+      border-bottom: 1px solid $text;
+      .label,
+      .info {
+        @media (max-width: 991px) {
+          font-size: 14px;
+        }
+        @media (max-width: 400px) {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  .off {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .showen-collection {
+    .select-container {
+      display: flex;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+@use "../../sass/colors/colors" as *;
+.select-container {
+  .select {
+    border: 2px solid $text;
+    &:focus {
+      border-color: $sky;
+    }
+    .close_icon {
+      &::after {
+        content: "حذف الكل";
+        position: absolute;
+        right: -300%;
+        padding: 3px;
+        width: 55px;
+        top: -150%;
+        display: flex;
+        background-color: #f00;
+        color: #fff;
+        font-weight: bold;
+        font-size: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 3px;
+        display: none;
+        transition: 0.3s all ease-in-out;
+      }
+      &:hover {
+        color: #f00;
+        &::after {
+          display: flex;
+        }
+      }
+    }
+    .show_icon:hover {
+      color: #000;
+    }
+    .list {
+      border: 1px solid $text;
+      left: 0;
+      top: 110%;
+      max-height: 150px;
+      overflow: hidden;
+      overflow-y: auto;
+      z-index: 10000;
+      display: none;
+      scrollbar-width: 8px !important;
+      &.show {
+        display: flex;
+      }
+      .option:not(:last-child) {
+        border-bottom: 1px solid $text-2;
+      }
+      .option.selected {
+        background-color: $main;
+        color: #fff;
+      }
+      .option {
+        .tooth_container {
+          .tooth_number.selected {
+            pointer-events: none;
+            background: none;
+            background-color: #63ff5b;
+            color: #fff;
+          }
+          .tooth_number:hover {
+            color: #fff;
+            background: none;
+            background-color: $sky !important;
+          }
+        }
+      }
+    }
+    .controller {
+      .wall {
+        width: 0px;
+        height: 20px;
+        align-self: stretch;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 1px;
+          height: 100%;
+          background-color: $text;
+        }
+      }
+    }
+  }
+}
