@@ -35,7 +35,7 @@ function Profile({
         }}
       >
         <img
-          src={`http://localhost:3003/assets/${auth?.profileImage}`}
+          src={`https://dentist-world-api.onrender.com/assets/${auth?.profileImage}`}
           alt=""
           style={{
             objectFit: "cover",

@@ -29,7 +29,7 @@ function Sidebar() {
           }}
         >
           <img
-            src={`https://www.dentist-world-api.com/assets/${auth?.profileImage}`}
+            src={`https://dentist-world-api.onrender.com/assets/${auth?.profileImage}`}
             alt=""
             className=""
             style={{
