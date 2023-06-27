@@ -40,7 +40,7 @@ function App() {
                       <Route path="treatmentPlan" element={<TreatmentPlan />} />
                       <Route path="reservation" element={<States />} />
                       <Route path="settings" element={<Settings />} />
-                      <Route path="*" element={<Navigate to="home" />} />
+                      <Route path="*" element={<Navigate to="/" />} />
                     </Route>
                   </Routes>
                 </AnimatePresence>
