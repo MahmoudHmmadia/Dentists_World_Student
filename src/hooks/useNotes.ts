@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { SERVER_ERROR, UseContext } from "../context/Context";
 import useAxiosPrivate from "./useAxiosPrivate";
-import { nanoid } from "@reduxjs/toolkit";
+import { nanoid } from "nanoid";
 export type notes = {
   title: string | undefined;
   content: string | undefined;

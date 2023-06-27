@@ -93,7 +93,7 @@ function Sidebar() {
             to="logout"
             className="cl-t flex align-center g-1 p-1 smooth bold"
             data-link="تسجيل الخروج"
-            onClick={() => setAuth(undefined)}
+            onClick={() => setAuth!(undefined)}
           >
             <div className="icon cl-t flex ">
               <IoLogOut />
