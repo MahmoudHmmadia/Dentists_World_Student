@@ -5,9 +5,6 @@ import {
   FaCheckCircle,
   FaList,
   IoImage,
-  RiErrorWarningFill,
-  VscError,
-  RiRefreshFill,
 } from "react-icons/all";
 import Title from "../../components/title";
 import logo from "../../assets/logo.png";
@@ -19,12 +16,14 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { Input } from "../../components/input/Input";
 import Button from "../../components/button";
 import axios from "../../api/axios";
-import { UseContext } from "../../context/Context";
+import { SERVER_ERROR, UseContext } from "../../context/Context";
 export interface ErrorI {
   name: string;
   value: string;
 }
 import { motion as m } from "framer-motion";
+import { AxiosError } from "axios";
+import ServerResponse from "../../components/serverResponse";
 function Register() {
   const {
     handleBlur,
@@ -32,7 +31,6 @@ function Register() {
     setIsRegister,
     getFormData,
     clearInputs,
-    reset,
     firstYearRef,
     secondYearRef,
     thirdYearRef,
@@ -47,10 +45,8 @@ function Register() {
     isValid,
     valid,
   } = useAuth();
-  const { setAuth } = UseContext();
+  const { setAuth, serverResponse, setServerResponse } = UseContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [IsSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState<undefined | ErrorI[] | string>(undefined);
   const formData = new FormData();
   async function handleSubmit(e: SyntheticEvent) {
     if (isValid) {
@@ -62,23 +58,32 @@ function Register() {
         .then(({ data }) => {
           setAuth!({ ...data.user, token: data.token });
           setIsLoading(false);
-          setIsSuccess(true);
         })
-        .catch((err) => {
+        .catch((err: AxiosError) => {
           setIsLoading(false);
           if (err.response?.status === 400) {
             const tempErr: ErrorI[] = [];
-            err.response?.data!.forEach((e: string) => {
-              tempErr.push({
-                name: e.split('"')[1].trim(),
-                value: e.split('"')[2].trim(),
+            if (Array.isArray(err.response.data))
+              err.response?.data!.forEach((e: string) => {
+                tempErr.push({
+                  name: e.split('"')[1].trim(),
+                  value: e.split('"')[2].trim(),
+                });
               });
+            setServerResponse({
+              type: "error",
+              content: tempErr,
             });
-            setError(tempErr);
           } else if (err.response?.status === 409) {
-            setError(err.response.data.message);
+            const message = {
+              message: "",
+            };
+            setServerResponse({
+              type: "error",
+              content: (err.response.data as typeof message)?.message,
+            });
           } else {
-            setError("يوجد عطل بالسيرفر");
+            setServerResponse(SERVER_ERROR);
           }
         });
       clearInputs();
@@ -89,9 +94,6 @@ function Register() {
   useEffect(() => {
     setIsRegister(true);
   }, []);
-  useEffect(() => {
-    if (!error) reset();
-  }, [error]);
   return (
     <m.div
       className="register flex flex-column g-1 radius relative z-10000"
@@ -125,48 +127,11 @@ function Register() {
               </div>
             </div>
           )}
-          {error && (
-            <div className="w-100 absolute centering-content h-100 white-bg red_gradient_bg smooth t-0 l-0 z-10000">
-              <div className="flex-column p-2 flex g-2 absolute t-50 l-50 translate-50 w-100">
-                <div className="flex fs-large justify-center">
-                  <RiErrorWarningFill />
-                </div>
-                {typeof error === "string" ? (
-                  <div className="flex g-1 align-center w-100 justify-center">
-                    <div className="icon flex fs-b-small">
-                      <VscError />
-                    </div>
-                    <p className="cl-w">{error}</p>
-                  </div>
-                ) : (
-                  <>
-                    {error.map((e) => (
-                      <div className="flex g-1 align-center">
-                        <div className="icon flex fs-b-small">
-                          <VscError />
-                        </div>
-                        <p className="cl-w">
-                          {e.name == "password"
-                            ? "يجب أن تكون كلمة السر من ثمانية حروف على الأقل"
-                            : e.name == "universityID"
-                            ? "يجب أن تتأكد من إدخال رقم في حقل رقم الجامعة"
-                            : "تأكد من تطابق كلمتي السر"}
-                        </p>
-                      </div>
-                    ))}
-                  </>
-                )}
-                <Button
-                  bgColor="green_gradient_bg"
-                  content="أعد المحاولة"
-                  icon={<RiRefreshFill />}
-                  color="cl-w"
-                  extraStyles="m-auto fs-b-small"
-                  valid={true}
-                  clickFunction={() => setError(undefined)}
-                />
-              </div>
-            </div>
+          {serverResponse && (
+            <>
+              <div className="fixed w-100 h-100 black-bg opacity-80 l-0 t-0"></div>
+              <ServerResponse response={serverResponse} reset={clearInputs} />
+            </>
           )}
           <Title icon={<AiFillProfile />} title="تسجيل" color="#fff" />
           <Input

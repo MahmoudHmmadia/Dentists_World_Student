@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import axios from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { UseContext } from "../context/Context";
+import { SERVER_ERROR, UseContext } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 export type patient = {
   _id: string;
@@ -22,8 +22,14 @@ export type patient = {
 };
 export function usePatients() {
   const { axiosPrivate } = useAxiosPrivate();
-  const { auth, patientState, setAuth, setPatients, setReservedPatient } =
-    UseContext();
+  const {
+    auth,
+    patientState,
+    setAuth,
+    setPatients,
+    setReservedPatient,
+    setServerResponse,
+  } = UseContext();
   const navigate = useNavigate();
   const [clinicName, setClinicName] = useState("التشخيص");
   const [isSeenMenu, setIsSeenMenu] = useState(false);
@@ -35,14 +41,11 @@ export function usePatients() {
     });
   }
   async function reservePatient(id: string) {
-    await axiosPrivate
-      .put(`/patient/${id}/${auth?.id}`)
-      .then((res) => {
-        setPatients(res.data.patients);
-        setAuth!({ ...auth, ...res.data.user });
-        navigate("/", { replace: true });
-      })
-      .catch((err) => console.log(err));
+    await axiosPrivate.put(`/patient/${id}/${auth?.id}`).then((res) => {
+      setPatients(res.data.patients);
+      setAuth!({ ...auth, ...res.data.user });
+      navigate("/", { replace: true });
+    });
   }
   async function updatePatientState(id: string) {
     await axiosPrivate
@@ -53,8 +56,7 @@ export function usePatients() {
       .then((res) => {
         setAuth!({ ...auth, ...res.data.user });
         navigate("/", { replace: true });
-      })
-      .catch((err) => console.log(err));
+      });
   }
   async function endTreatmentPlan(id: string) {
     await axiosPrivate
@@ -64,9 +66,10 @@ export function usePatients() {
         setPatients([...res.data.patients]);
         setReservedPatient(undefined);
         navigate("/", { replace: true });
-        console.log(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        setServerResponse(SERVER_ERROR);
+      });
   }
   return {
     clinicName,

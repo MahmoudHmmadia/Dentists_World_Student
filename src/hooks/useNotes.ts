@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { UseContext } from "../context/Context";
+import { SERVER_ERROR, UseContext } from "../context/Context";
 import useAxiosPrivate from "./useAxiosPrivate";
 import { nanoid } from "@reduxjs/toolkit";
 export type notes = {
@@ -8,11 +8,12 @@ export type notes = {
   id: string;
 };
 export function useNotes() {
+  const {} = UseContext();
   const noteTitleRef = useRef<HTMLInputElement>(null);
   const noteContentRef = useRef<HTMLTextAreaElement>(null);
   const [isSeen, setIsSeen] = useState(false);
   const [isNote, setIsNote] = useState(false);
-  const { auth, setAuth } = UseContext();
+  const { auth, setAuth, setServerResponse } = UseContext();
   const { axiosPrivate } = useAxiosPrivate();
   function handleSaveNote() {
     noteContentRef.current?.value && noteTitleRef.current?.value
@@ -33,7 +34,9 @@ export function useNotes() {
         setIsSeen(true);
         setIsNote(false);
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        setServerResponse(SERVER_ERROR);
+      });
   }
   async function deleteNote(noteId: string) {
     await axiosPrivate.put(`/user/${auth?.id}/notes`, { noteId }).then(() => {

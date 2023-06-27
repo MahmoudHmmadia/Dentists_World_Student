@@ -2,6 +2,7 @@ import { UseContext } from "./../context/Context";
 import { useEffect } from "react";
 import { axiosPrivate } from "../api/axios";
 import useRefresh from "./useRefresh";
+import { AxiosError, AxiosInstance } from "axios";
 
 function useAxiosPrivate() {
   const { refresh } = useRefresh();
@@ -14,11 +15,11 @@ function useAxiosPrivate() {
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error: AxiosError) => Promise.reject(error)
     );
     const responseIntercept = axiosPrivate.interceptors.response.use(
       (response) => response,
-      async (error) => {
+      async (error: any) => {
         const prevReq = error.config;
         if (error.response.status === 403 && !prevReq.sent) {
           const newToken = await refresh();

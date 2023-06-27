@@ -86,9 +86,11 @@ export function useAuth() {
       passwordRef.current!.value = "";
       passwordCRef.current!.value = "";
       universityIdRef.current!.value = "";
+      reset();
     } else {
       nameRef.current!.value = "";
       passwordRef.current!.value = "";
+      reset();
     }
     valid();
   }

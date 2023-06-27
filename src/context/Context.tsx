@@ -8,10 +8,12 @@ import {
 } from "react";
 import { patient } from "../hooks/usePatients";
 import { notes } from "../hooks/useNotes";
+import { ErrorI } from "../pages/register";
 export type clinic = {
   info: string;
   extra?: string[] | [];
 };
+
 export interface PatientStatesI {
   ["لثة"]: clinic[] | undefined;
   ["متحركة"]: clinic[] | undefined;
@@ -36,6 +38,10 @@ export interface AuthI {
   token: string;
   _id?: number;
 }
+export const SERVER_ERROR = {
+  type: "error",
+  content: "هناك عطل بالسيرفر ، حاول لاحقاً",
+};
 interface ContextI {
   patientState:
     | PatientStatesI
@@ -52,6 +58,10 @@ interface ContextI {
   setPatients: Dispatch<SetStateAction<patient[] | undefined>>;
   reservedPatient: patient | undefined;
   setReservedPatient: Dispatch<SetStateAction<patient | undefined>>;
+  serverResponse: { type: string; content: string | ErrorI[] } | undefined;
+  setServerResponse: Dispatch<
+    SetStateAction<{ type: string; content: string | ErrorI[] } | undefined>
+  >;
 }
 const context = createContext<ContextI>({
   patientState: undefined,
@@ -62,6 +72,8 @@ const context = createContext<ContextI>({
   setPatients: () => {},
   reservedPatient: undefined,
   setReservedPatient: () => {},
+  serverResponse: undefined,
+  setServerResponse: () => {},
 });
 
 export function Provider({ children }: { children: ReactNode }) {
@@ -71,6 +83,9 @@ export function Provider({ children }: { children: ReactNode }) {
   const [patientState, setPatientState] = useState<
     PatientStatesI | undefined | { [x: string]: clinic[] | undefined }
   >(reservedPatient?.state);
+  const [serverResponse, setServerResponse] = useState<
+    undefined | { type: string; content: string | ErrorI[] }
+  >(undefined);
   return (
     <context.Provider
       value={{
@@ -82,6 +97,8 @@ export function Provider({ children }: { children: ReactNode }) {
         setPatients,
         reservedPatient,
         setReservedPatient,
+        serverResponse,
+        setServerResponse,
       }}
     >
       {children}
