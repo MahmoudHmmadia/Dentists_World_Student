@@ -24,6 +24,8 @@ export interface ErrorI {
 import { motion as m } from "framer-motion";
 import { AxiosError } from "axios";
 import ServerResponse from "../../components/serverResponse";
+import { Helmet } from "react-helmet";
+import logoI from "../../assets/logo1.png";
 function Register() {
   const {
     handleBlur,
@@ -104,6 +106,10 @@ function Register() {
         ease: "easeOut",
       }}
     >
+      <Helmet>
+        <link rel="icon" href={logoI} />
+        <title>| Dentists World</title>
+      </Helmet>
       <div className="flex flex-column g-2 w-100">
         <div className="image p-1 centering-content">
           <img

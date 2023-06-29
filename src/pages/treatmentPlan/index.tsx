@@ -25,6 +25,8 @@ import { useNavigate } from "react-router-dom";
 import { UseContext } from "../../context/Context";
 import { usePatients } from "../../hooks/usePatients";
 import { SyntheticEvent, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import logo from "../../assets/logo1.png";
 
 function TreatmentPlan() {
   const [valid, setValid] = useState(false);
@@ -49,6 +51,10 @@ function TreatmentPlan() {
   }, [patientState]);
   return (
     <div className="treatment-plan rtl">
+      <Helmet>
+        <link rel="icon" href={logo} />
+        <title>| Dentists World</title>
+      </Helmet>
       <Title title="خطة المعالجة" color="#2dc1e4" icon={<FaNotesMedical />} />
       {reservedPatient ? (
         <>

@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import Clinic from "../../components/clinic";
 import { usePatients } from "../../hooks/usePatients";
 import { UseContext } from "../../context/Context";
+import logo from "../../assets/logo1.png";
+import { Helmet } from "react-helmet";
 function States() {
   const { getPatients, clinicName, isSeenMenu, setClinicName, setIsSeenMenu } =
     usePatients();
@@ -15,6 +17,10 @@ function States() {
   }, []);
   return (
     <div className="states flex flex-column g-1">
+      <Helmet>
+        <link rel="icon" href={logo} />
+        <title>| Dentists World</title>
+      </Helmet>
       <Title icon={<IoIosPeople />} title="حجز حالة" />
       <div
         className="flex menu fs-med pointer cl-m w-fit"

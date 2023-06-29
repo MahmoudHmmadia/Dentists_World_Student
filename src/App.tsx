@@ -35,7 +35,7 @@ function App() {
                 <AnimatePresence>
                   <Routes location={location} key={location.pathname}>
                     <Route path="/">
-                      <Route index element={<Navigate to="home" />} />
+                      <Route index element={<Home />} />
                       <Route path="home" element={<Home />} />
                       <Route path="treatmentPlan" element={<TreatmentPlan />} />
                       <Route path="reservation" element={<States />} />

@@ -24,6 +24,8 @@ import { useEffect } from "react";
 import { UseContext } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 import { usePatients } from "../../hooks/usePatients";
+import { Helmet } from "react-helmet";
+import logo from "../../assets/logo1.png";
 function Home() {
   const {
     noteContentRef,
@@ -44,6 +46,10 @@ function Home() {
   const { reservePatient } = usePatients();
   return (
     <div className="home flex flex-column g-1 w-100">
+      <Helmet>
+        <link rel="icon" href={logo} />
+        <title>| Dentists World</title>
+      </Helmet>
       <Title icon={<AiTwotoneHome />} title="الصفحة الرئيسية" />
       <div className="home__boxes rtl">
         <HomeBox title="أهلاً و سهلاً">

@@ -6,14 +6,19 @@ import { RiGalleryFill } from "react-icons/ri";
 import { UseContext } from "../../context/Context";
 import { BiCheck, BiEdit, BsBack } from "react-icons/all";
 import Button from "../../components/button";
+import logo from "../../assets/logo1.png";
+import { Helmet } from "react-helmet";
 function Settings() {
   const nameRef = useRef<HTMLInputElement>(null);
-  const numberRef = useRef<HTMLInputElement>(null);
   const [toggle, setToggle] = useState(false);
   const [valid, setValid] = useState(false);
   const { auth } = UseContext();
   return (
     <div className="flex flex-column g-1">
+      <Helmet>
+        <link rel="icon" href={logo} />
+        <title>| Dentists World</title>
+      </Helmet>
       <Title icon={<MdSettings />} title="إعدادت" />
       <HomeBox title="تعديل الملف الشخصي">
         <div className="flex flex-column g-2">
