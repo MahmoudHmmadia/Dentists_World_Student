@@ -53,7 +53,7 @@ function TreatmentPlan() {
     <div className="treatment-plan rtl">
       <Helmet>
         <link rel="icon" href={logo} />
-        <title>| Dentists World</title>
+        <title>Dentists World | Treatment Plan</title>
       </Helmet>
       <Title title="خطة المعالجة" color="#2dc1e4" icon={<FaNotesMedical />} />
       {reservedPatient ? (

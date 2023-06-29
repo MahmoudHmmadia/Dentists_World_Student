@@ -19,7 +19,7 @@ function States() {
     <div className="states flex flex-column g-1">
       <Helmet>
         <link rel="icon" href={logo} />
-        <title>| Dentists World</title>
+        <title>Dentists World | States</title>
       </Helmet>
       <Title icon={<IoIosPeople />} title="حجز حالة" />
       <div

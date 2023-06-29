@@ -48,7 +48,7 @@ function Home() {
     <div className="home flex flex-column g-1 w-100">
       <Helmet>
         <link rel="icon" href={logo} />
-        <title>| Dentists World</title>
+        <title>Dentists World | Home</title>
       </Helmet>
       <Title icon={<AiTwotoneHome />} title="الصفحة الرئيسية" />
       <div className="home__boxes rtl">

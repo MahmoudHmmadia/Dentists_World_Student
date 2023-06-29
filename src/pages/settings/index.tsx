@@ -17,7 +17,7 @@ function Settings() {
     <div className="flex flex-column g-1">
       <Helmet>
         <link rel="icon" href={logo} />
-        <title>| Dentists World</title>
+        <title>Dentists World | Settings</title>
       </Helmet>
       <Title icon={<MdSettings />} title="إعدادت" />
       <HomeBox title="تعديل الملف الشخصي">

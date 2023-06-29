@@ -108,7 +108,7 @@ function Register() {
     >
       <Helmet>
         <link rel="icon" href={logoI} />
-        <title>| Dentists World</title>
+        <title>Dentists World | Register</title>
       </Helmet>
       <div className="flex flex-column g-2 w-100">
         <div className="image p-1 centering-content">
