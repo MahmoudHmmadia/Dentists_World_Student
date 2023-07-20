@@ -2,16 +2,16 @@ import { useRef, useState } from "react";
 import axios from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { SERVER_ERROR, UseContext } from "../context/Context";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 export type patient = {
   _id: string;
   fullName: string;
   address: string;
   phoneId: number;
   clinics: string[];
-  xRays: string[];
+  xRay: string;
   state: any;
-  smoker: boolean;
+  smoker: string;
   occupation: string;
   gender: string;
   age: number;
@@ -32,9 +32,10 @@ export function usePatients() {
   } = UseContext();
   const navigate = useNavigate();
   const [clinicName, setClinicName] = useState("التشخيص");
-  const [isSeenMenu, setIsSeenMenu] = useState(false);
   const [reservedPatients, setReservedPatients] = useState<patient[]>([]);
+  const [isSeenStatesMenu, setIsSeenStatesMenu] = useState(false);
   const smookRef = useRef<HTMLInputElement>(null);
+  const xRayRef = useRef<HTMLInputElement>(null);
   async function getPatients() {
     await axios.get("/patient").then((res) => {
       setPatients(res.data);
@@ -48,14 +49,21 @@ export function usePatients() {
     });
   }
   async function updatePatientState(id: string) {
+    const formData = new FormData();
+    formData.append("smook", smookRef.current!.checked ? "yes" : "no");
+    formData.append("xray", xRayRef.current?.files![0]!);
+    if (xRayRef.current?.files![0])
+      formData.append("xRayName", xRayRef.current?.files![0].name!);
+    formData.append("patientState", JSON.stringify(patientState));
     await axiosPrivate
-      .post(`/patient/${id}/${auth?.id}`, {
-        patientState,
-        smook: smookRef.current?.checked ? true : false,
-      })
+      .post(`/patient/${id}/${auth?.id}`, formData)
       .then((res) => {
         setAuth!({ ...auth, ...res.data.user });
-        navigate("/", { replace: true });
+        setServerResponse({
+          content:
+            "تم عمل تحديث لبيانات المريض ، قم بفك الحجز عنه في حال انتهيت من خطة معالجته ",
+          type: "done",
+        });
       });
   }
   async function endTreatmentPlan(id: string) {
@@ -73,15 +81,16 @@ export function usePatients() {
   }
   return {
     clinicName,
-    isSeenMenu,
     reservedPatients,
     setClinicName,
-    setIsSeenMenu,
     getPatients,
     setReservedPatients,
     reservePatient,
     updatePatientState,
     endTreatmentPlan,
+    isSeenStatesMenu,
+    setIsSeenStatesMenu,
     smookRef,
+    xRayRef,
   };
 }

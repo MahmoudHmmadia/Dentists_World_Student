@@ -1,6 +1,15 @@
 @use "../../sass/colors/colors" as *;
 @use "../../sass/mixins/grid" as *;
 .treatment-plan {
+  .buttons_container {
+    @media (max-width: 767px) {
+      flex-direction: column;
+      button,
+      .input-container {
+        width: 100%;
+      }
+    }
+  }
   .treatment-plan__boxes {
     @include grid(300px);
     @media (max-width: 500px) {

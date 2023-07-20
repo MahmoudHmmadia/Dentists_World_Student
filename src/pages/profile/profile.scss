@@ -1,0 +1,15 @@
+@use "../../sass/colors/colors" as *;
+.profile {
+  .profile_coolImage {
+    .image-container {
+      overflow: visible;
+      display: flex;
+      justify-content: center;
+      img {
+        box-shadow: 0 0 0 8px #fff, 0 0 0 16px $sky;
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+      }
+    }
+  }
+}

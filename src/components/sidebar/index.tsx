@@ -1,15 +1,22 @@
 import { NavLink } from "react-router-dom";
 import { GiSunflower } from "react-icons/gi";
-import { AiTwotoneHome, AiTwotoneSetting } from "react-icons/ai";
+import { AiTwotoneHome } from "react-icons/ai";
 import { FaNotesMedical } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { IoLogOut } from "react-icons/io5";
 import "./sidebar.scss";
 import { UseContext } from "../../context/Context";
+import { RiProfileFill } from "react-icons/ri";
+import ImageRenderer from "../coolImage/CoolImage";
 function Sidebar() {
-  const { auth, setAuth } = UseContext();
+  const { auth, isOverLay, setAuth } = UseContext();
   return (
-    <div className="sidebar flex flex-column align-center g-2 box-shadow w-25 h-100 white-bg sticky-top z-100000">
+    <div
+      className={`sidebar flex flex-column align-center g-2 light-box-shadow w-25 h-100 white-bg sticky-top`}
+      style={{
+        zIndex: isOverLay ? "1" : "99",
+      }}
+    >
       <h2 className="title p-1 relative rtl flex">
         <span className="title cl-bl">أمل لابتسامة أجمل</span>
         <span className="icon cl-m">
@@ -22,19 +29,12 @@ function Sidebar() {
           maxWidth: "180px",
         }}
       >
-        <div
-          className="image flex overflow-hidden circle"
-          style={{
-            aspectRatio: "1/1",
-          }}
-        >
-          <img
-            src={`https://dentist-world-api.onrender.com/assets/${auth?.profileImage}`}
-            alt=""
-            className=""
-            style={{
-              objectFit: "cover",
-            }}
+        <div className="profile_image flex overflow-hidden circle">
+          <ImageRenderer
+            height={""}
+            thumb=""
+            url={`https://dentist-world-api.onrender.com/assets/profile/${auth?.profileImage}`}
+            width={""}
           />
         </div>
         <h3 className="name bold capitalize">{auth?.fullName}</h3>
@@ -43,7 +43,7 @@ function Sidebar() {
         <li>
           <NavLink
             data-link="الصفحة الرئيسية"
-            to="/home"
+            to="/"
             className="cl-t flex align-center g-1 p-1 smooth bold"
           >
             <div className="icon cl-t flex">
@@ -78,14 +78,14 @@ function Sidebar() {
         </li>
         <li>
           <NavLink
-            to="settings"
+            to="profile"
             className="cl-t flex align-center g-1 p-1 smooth bold"
-            data-link="الإعدادات"
+            data-link="الملف الشخصي"
           >
             <div className="icon cl-t flex ">
-              <AiTwotoneSetting />
+              <RiProfileFill />
             </div>
-            <span className="cl-t2 link_text">إعدادت</span>
+            <span className="cl-t2 link_text">الملف الشخصي</span>
           </NavLink>
         </li>
         <li>

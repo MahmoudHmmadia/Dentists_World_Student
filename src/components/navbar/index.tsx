@@ -9,7 +9,7 @@ function Navbar({
   setShowenProfile: Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <nav className="white-bg pt-1 pb-1 box-shadow w-100">
+    <nav className="white-bg pt-1 pb-1 light-box-shadow w-100">
       <div className="container flex align-center justify-between w-100 ">
         <div className="logo">
           <img src={logo} alt="LOGO" />

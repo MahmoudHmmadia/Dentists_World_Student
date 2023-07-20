@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { usePatients } from "../../hooks/usePatients";
 import { Helmet } from "react-helmet";
 import logo from "../../assets/logo1.png";
+import useMessages from "../../hooks/useMessages";
 function Home() {
   const {
     noteContentRef,
@@ -38,6 +39,7 @@ function Home() {
     getNotes,
     setIsSeen,
   } = useNotes();
+  const { messageRef, sendMessage } = useMessages();
   useEffect(() => {
     getNotes();
   }, []);
@@ -45,13 +47,13 @@ function Home() {
   const navigate = useNavigate();
   const { reservePatient } = usePatients();
   return (
-    <div className="home flex flex-column g-1 w-100">
+    <div className="home flex flex-column g-3 w-100">
       <Helmet>
         <link rel="icon" href={logo} />
         <title>Dentists World | Home</title>
       </Helmet>
-      <Title icon={<AiTwotoneHome />} title="الصفحة الرئيسية" />
-      <div className="home__boxes rtl">
+      <Title icon={<AiTwotoneHome />} title="الصفحة الرئيسية" fs="fs-large" />
+      <div className="home__boxes rtl g-2">
         <HomeBox title="أهلاً و سهلاً">
           <div className="welcome__box flex g-1 align-center">
             <div className="welcome_image">
@@ -211,6 +213,7 @@ function Home() {
               style={{
                 minHeight: "100px",
               }}
+              ref={messageRef}
             ></textarea>
             <Button
               bgColor="blue_gradient_bg"
@@ -219,6 +222,7 @@ function Home() {
               fontSize="fs-b-small"
               extraStyles="w-100"
               valid={true}
+              clickFunction={sendMessage}
             />
           </div>
         </HomeBox>

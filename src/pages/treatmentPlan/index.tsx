@@ -9,6 +9,7 @@ import {
 } from "react-icons/all";
 import CureBox from "../../components/cure_box";
 import Title from "../../components/title";
+import { motion as m } from "framer-motion";
 import {
   fifthClinic,
   firstClinic,
@@ -31,8 +32,10 @@ import logo from "../../assets/logo1.png";
 function TreatmentPlan() {
   const [valid, setValid] = useState(false);
   const navigate = useNavigate();
-  const { reservedPatient, setReservedPatient, patientState } = UseContext();
-  const { updatePatientState, smookRef, endTreatmentPlan } = usePatients();
+  const { reservedPatient, setReservedPatient, patientState, serverResponse } =
+    UseContext();
+  const { updatePatientState, smookRef, endTreatmentPlan, xRayRef } =
+    usePatients();
   function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     updatePatientState(reservedPatient!._id);
@@ -50,12 +53,13 @@ function TreatmentPlan() {
     }
   }, [patientState]);
   return (
-    <div className="treatment-plan rtl">
+    <div className="treatment-plan rtl flex flex-column g-3">
       <Helmet>
         <link rel="icon" href={logo} />
         <title>Dentists World | Treatment Plan</title>
       </Helmet>
-      <Title title="خطة المعالجة" color="#2dc1e4" icon={<FaNotesMedical />} />
+
+      <Title title="خطة المعالجة" icon={<FaNotesMedical />} fs="fs-large" />
       {reservedPatient ? (
         <>
           <div className="flex flex-column g-2">
@@ -146,15 +150,30 @@ function TreatmentPlan() {
               <CureBox title="تخدير و قلع" inputs={viiClinic} />
               <CureBox title="طب الفم و التقويم" inputs={viiiClinic} />
             </div>
-            <div className="flex g-1">
-              <Button
-                bgColor="sunny_gradient_bg"
-                content="إضافة صورة شعاعية"
-                icon={<RiGalleryFill />}
-                extraStyles="w-50"
-                fontSize="fs-b-small"
-                valid={true}
-              />
+            <div className="flex g-1 buttons_container pointer">
+              <m.div
+                className="input-container p-1 centering-content sunny_gradient_bg cl-w w-50 radius bold fs-b-small"
+                whileHover={{
+                  scale: 0.9,
+                }}
+              >
+                <label
+                  htmlFor="xRay"
+                  className="g-1 pointer  w-100 centering-content"
+                >
+                  <span className="pointer">إضافة صورة شعاعية</span>
+                  <span className="flex pointer">
+                    <RiGalleryFill />
+                  </span>
+                </label>
+                <input
+                  type="file"
+                  name="xray"
+                  id="xRay"
+                  className="d-none"
+                  ref={xRayRef}
+                />
+              </m.div>
               <Button
                 bgColor="green_gradient_bg"
                 content="تمت معالجة الحالة"

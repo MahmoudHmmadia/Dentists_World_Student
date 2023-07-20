@@ -8,7 +8,7 @@ interface HomeBoxI {
 function HomeBox({ children, title, extra }: HomeBoxI) {
   return (
     <div
-      className={`box radius box-shadow flex flex-column txt-e g-2 p-1 white-bg ${
+      className={`box radius light-box-shadow flex flex-column txt-e g-2 p-1 white-bg ${
         extra && extra
       }`}
       style={{

@@ -11,9 +11,9 @@ import { SERVER_ERROR, UseContext } from "../../context/Context";
 import "./login.scss";
 import { motion as m } from "framer-motion";
 import { AxiosError } from "axios";
-import ServerResponse from "../../components/serverResponse";
 import logoI from "../../assets/logo1.png";
 import { Helmet } from "react-helmet";
+import ImageRenderer from "../../components/coolImage/CoolImage";
 function Login() {
   const {
     handleBlur,
@@ -27,7 +27,7 @@ function Login() {
     clearInputs,
     reset,
   } = useAuth();
-  const { setAuth, setServerResponse, serverResponse } = UseContext();
+  const { setAuth, setServerResponse } = UseContext();
   const [isLoading, setIsLoading] = useState(false);
   const formData = new FormData();
   async function handleSubmit(e: SyntheticEvent) {
@@ -85,14 +85,7 @@ function Login() {
       </Helmet>
       <div className="flex flex-column g-2 w-100">
         <div className="image p-1 centering-content">
-          <img
-            src={logo}
-            alt="LOGO"
-            style={{
-              maxWidth: "300px",
-            }}
-            className="logo"
-          />
+          <ImageRenderer height={""} thumb="" url={logo} width={"300px"} />
         </div>
         <form
           className="p-2 blue_gradient_bg radius flex flex-column g-2 cl-w flex-1 align-center relative overflow-hidden"
@@ -105,12 +98,6 @@ function Login() {
                 <div></div>
               </div>
             </div>
-          )}
-          {serverResponse && (
-            <>
-              <div className="fixed w-100 h-100 black-bg opacity-80 l-0 t-0"></div>
-              <ServerResponse response={serverResponse} reset={clearInputs} />
-            </>
           )}
           <Title icon={<FiLogIn />} title="تسجيل الدخول" color="#fff" />
           <Input

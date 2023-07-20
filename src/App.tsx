@@ -7,18 +7,25 @@ import States from "./pages/states";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { UseContext } from "./context/Context";
-import Settings from "./pages/settings";
+import Settings from "./pages/profile";
 import { useState } from "react";
 import Profile from "./components/profile";
 import "./sass/app.scss";
 import { AnimatePresence } from "framer-motion";
+import ServerResponse from "./components/serverResponse";
 
 function App() {
-  const { auth } = UseContext();
+  const { auth, serverResponse } = UseContext();
   const [showenProfile, setShowenProfile] = useState(false);
   const location = useLocation();
   return (
     <div className="app flex rtl relative">
+      {serverResponse && (
+        <>
+          <div className="fixed z-100000 w-100 h-100 opacity-80 black-bg"></div>
+          <ServerResponse response={serverResponse} />
+        </>
+      )}
       {auth?.token ? (
         <>
           {showenProfile && (
@@ -28,18 +35,17 @@ function App() {
             </>
           )}
           <Sidebar />
-          <div className="flex flex-column g-2 flex-1 overflow-hidden">
-            <Navbar setShowenProfile={setShowenProfile} />
+
+          <div className="flex flex-column g-3 flex-1 overflow-hidden">
             <div className="content relative flex-1">
               <div className="container w-100">
                 <AnimatePresence>
                   <Routes location={location} key={location.pathname}>
                     <Route path="/">
                       <Route index element={<Home />} />
-                      <Route path="home" element={<Home />} />
                       <Route path="treatmentPlan" element={<TreatmentPlan />} />
                       <Route path="reservation" element={<States />} />
-                      <Route path="settings" element={<Settings />} />
+                      <Route path="profile" element={<Settings />} />
                       <Route path="*" element={<Navigate to="/" />} />
                     </Route>
                   </Routes>

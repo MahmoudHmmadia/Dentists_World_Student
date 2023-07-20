@@ -55,7 +55,9 @@ function ServerResponse({ response, reset }: props) {
       )}
       <div className="flex g-1 align-center">
         <Button
-          bgColor="red-bg"
+          bgColor={`${
+            response.type === "error" ? "red_gradient_bg" : "green_gradient_bg"
+          }`}
           color="cl-w"
           extraStyles="w-70 m-auto"
           content={`${

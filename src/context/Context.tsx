@@ -62,6 +62,8 @@ interface ContextI {
   setServerResponse: Dispatch<
     SetStateAction<{ type: string; content: string | ErrorI[] } | undefined>
   >;
+  isOverLay: boolean;
+  setIsisOverLay: Dispatch<SetStateAction<boolean>>;
 }
 const context = createContext<ContextI>({
   patientState: undefined,
@@ -74,6 +76,8 @@ const context = createContext<ContextI>({
   setReservedPatient: () => {},
   serverResponse: undefined,
   setServerResponse: () => {},
+  isOverLay: false,
+  setIsisOverLay: () => {},
 });
 
 export function Provider({ children }: { children: ReactNode }) {
@@ -86,6 +90,7 @@ export function Provider({ children }: { children: ReactNode }) {
   const [serverResponse, setServerResponse] = useState<
     undefined | { type: string; content: string | ErrorI[] }
   >(undefined);
+  const [isOverLay, setIsisOverLay] = useState(false);
   return (
     <context.Provider
       value={{
@@ -99,6 +104,8 @@ export function Provider({ children }: { children: ReactNode }) {
         setReservedPatient,
         serverResponse,
         setServerResponse,
+        isOverLay,
+        setIsisOverLay,
       }}
     >
       {children}

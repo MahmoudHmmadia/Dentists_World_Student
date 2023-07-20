@@ -5,7 +5,21 @@
   @media (max-width: 991px) {
     width: 15% !important;
   }
-
+  .profile_image {
+    width: 200px;
+    height: 200px;
+  }
+  @media (max-width: 991px) {
+    .profile_image {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  @media (max-width: 767px) {
+    .profile_image {
+      display: none;
+    }
+  }
   .title {
     -webkit-text-stroke-color: $sky;
     -webkit-text-stroke-width: 1px;
@@ -72,11 +86,6 @@
     @media (max-width: 991px) {
       padding: 0;
       .name {
-        display: none;
-      }
-    }
-    @media (max-width: 767px) {
-      .image {
         display: none;
       }
     }

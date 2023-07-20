@@ -8,7 +8,6 @@ export type notes = {
   id: string;
 };
 export function useNotes() {
-  const {} = UseContext();
   const noteTitleRef = useRef<HTMLInputElement>(null);
   const noteContentRef = useRef<HTMLTextAreaElement>(null);
   const [isSeen, setIsSeen] = useState(false);
@@ -49,7 +48,9 @@ export function useNotes() {
       .then((res) => {
         setAuth!({ ...auth, ...res.data.user });
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        setServerResponse(SERVER_ERROR);
+      });
   }
 
   return {

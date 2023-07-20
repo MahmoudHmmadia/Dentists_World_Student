@@ -1,8 +1,12 @@
 import { FaSkull } from "react-icons/fa";
-import { clinic } from "../../context/Context";
+import { UseContext, clinic } from "../../context/Context";
 import { patient, usePatients } from "../../hooks/usePatients";
 import Button from "../button";
 import { BsFillCheckCircleFill, BsFlower1 } from "react-icons/bs";
+import { useState } from "react";
+import { RiGalleryFill } from "react-icons/ri";
+import { IoCloseCircle } from "react-icons/io5";
+import ImageRenderer from "../coolImage/CoolImage";
 
 type props = {
   name: string;
@@ -11,8 +15,45 @@ type props = {
 
 function Clinic({ name, patients }: props) {
   const { reservePatient } = usePatients();
+  const { setIsisOverLay } = UseContext();
+  const [isSeenX, setIsSeenX] = useState(false);
+  const [patientId, setPatientId] = useState("");
   return (
     <div className="flex flex-column g-1">
+      {isSeenX && (
+        <>
+          <div
+            className="fixed l-0 t-0 w-100 h-100 black-bg opacity-80"
+            style={{
+              zIndex: 999999,
+            }}
+          ></div>
+          <div
+            className="fixed t-50 l-50 translate-50 radius p-2"
+            style={{
+              zIndex: 9999999,
+            }}
+          >
+            <div
+              className="pointer flex cl-r fs-med absolute t-0 r-0 z-1000000"
+              onClick={() => {
+                setIsisOverLay(false);
+                setIsSeenX(false);
+              }}
+            >
+              <IoCloseCircle />
+            </div>
+            <ImageRenderer
+              height={"auto"}
+              thumb=""
+              url={`https://dentist-world-api.onrender.com/assets/xray/${
+                patients?.filter((p) => p._id === patientId)[0].xRay
+              }`}
+              width={"auto"}
+            />
+          </div>
+        </>
+      )}
       <h2 className="cl-b">{name}</h2>
       {patients && patients.length > 0 ? (
         <div className="flex flex-column g-2">
@@ -72,7 +113,7 @@ function Clinic({ name, patients }: props) {
                   borderBottom: "2px solid #ddd",
                 }}
               >
-                {patient.smoker ? (
+                {patient.smoker === "yes" ? (
                   <>
                     <p className="cl-r bold">مدخن</p>
                     <div className="icon flex cl-r">
@@ -119,15 +160,30 @@ function Clinic({ name, patients }: props) {
                   </>
                 )}
               </div>
-              <Button
-                bgColor="blue_gradient_bg"
-                content="حجز"
-                icon={<BsFillCheckCircleFill />}
-                valid={true}
-                fontSize="fs-b-small"
-                extraStyles="w-80 m-auto mt-1"
-                clickFunction={() => reservePatient(patient._id)}
-              />
+              <div className="flex g-1 align-center">
+                <Button
+                  bgColor="sunny_gradient_bg"
+                  content="مشاهدة الصورة الشعاعية"
+                  icon={<RiGalleryFill />}
+                  valid={patient.xRay !== "" ? true : false}
+                  fontSize="fs-b-small"
+                  extraStyles="w-50 m-auto mt-1"
+                  clickFunction={() => {
+                    setIsSeenX(true);
+                    setIsisOverLay(true);
+                    setPatientId(patient._id);
+                  }}
+                />
+                <Button
+                  bgColor="blue_gradient_bg"
+                  content="حجز"
+                  icon={<BsFillCheckCircleFill />}
+                  valid={true}
+                  fontSize="fs-b-small"
+                  extraStyles="w-50 m-auto mt-1"
+                  clickFunction={() => reservePatient(patient._id)}
+                />
+              </div>
             </div>
           ))}
         </div>

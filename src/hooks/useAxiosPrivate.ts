@@ -2,7 +2,7 @@ import { UseContext } from "./../context/Context";
 import { useEffect } from "react";
 import { axiosPrivate } from "../api/axios";
 import useRefresh from "./useRefresh";
-import { AxiosError, AxiosInstance } from "axios";
+import { AxiosError } from "axios";
 
 function useAxiosPrivate() {
   const { refresh } = useRefresh();
@@ -21,7 +21,7 @@ function useAxiosPrivate() {
       (response) => response,
       async (error: any) => {
         const prevReq = error.config;
-        if (error.response.status === 403 && !prevReq.sent) {
+        if (error.response?.status === 403 && !prevReq.sent) {
           const newToken = await refresh();
           prevReq.sent = true;
           prevReq.headers.Authorization = `Bearer ${newToken}`;

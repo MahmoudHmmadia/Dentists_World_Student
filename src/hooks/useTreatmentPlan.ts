@@ -1,6 +1,5 @@
 import { SyntheticEvent } from "react";
 import { UseContext } from "../context/Context";
-import { usePatients } from "./usePatients";
 
 export function useTreatmentPlan() {
   const { patientState, setPatientState } = UseContext();

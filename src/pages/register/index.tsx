@@ -26,6 +26,7 @@ import { AxiosError } from "axios";
 import ServerResponse from "../../components/serverResponse";
 import { Helmet } from "react-helmet";
 import logoI from "../../assets/logo1.png";
+import ImageRenderer from "../../components/coolImage/CoolImage";
 function Register() {
   const {
     handleBlur,
@@ -47,7 +48,7 @@ function Register() {
     isValid,
     valid,
   } = useAuth();
-  const { setAuth, serverResponse, setServerResponse } = UseContext();
+  const { setAuth, setServerResponse } = UseContext();
   const [isLoading, setIsLoading] = useState(false);
   const formData = new FormData();
   async function handleSubmit(e: SyntheticEvent) {
@@ -64,17 +65,9 @@ function Register() {
         .catch((err: AxiosError) => {
           setIsLoading(false);
           if (err.response?.status === 400) {
-            const tempErr: ErrorI[] = [];
-            if (Array.isArray(err.response.data))
-              err.response?.data!.forEach((e: string) => {
-                tempErr.push({
-                  name: e.split('"')[1].trim(),
-                  value: e.split('"')[2].trim(),
-                });
-              });
             setServerResponse({
               type: "error",
-              content: tempErr,
+              content: "تأكد من تعبئة الحقول بقيم صحيحة",
             });
           } else if (err.response?.status === 409) {
             const message = {
@@ -112,14 +105,7 @@ function Register() {
       </Helmet>
       <div className="flex flex-column g-2 w-100">
         <div className="image p-1 centering-content">
-          <img
-            src={logo}
-            alt="LOGO"
-            style={{
-              maxWidth: "300px",
-            }}
-            className="logo"
-          />
+          <ImageRenderer height={""} thumb="" url={logo} width={"300px"} />
         </div>
         <form
           className="p-2 blue_gradient_bg radius flex flex-column g-2 cl-w flex-1 align-center overflow-hidden relative"
@@ -132,12 +118,6 @@ function Register() {
                 <div></div>
               </div>
             </div>
-          )}
-          {serverResponse && (
-            <>
-              <div className="fixed w-100 h-100 black-bg opacity-80 l-0 t-0"></div>
-              <ServerResponse response={serverResponse} reset={clearInputs} />
-            </>
           )}
           <Title icon={<AiFillProfile />} title="تسجيل" color="#fff" />
           <Input
