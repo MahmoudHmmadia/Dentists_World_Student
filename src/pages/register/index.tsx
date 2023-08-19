@@ -48,22 +48,21 @@ function Register() {
     isValid,
     valid,
   } = useAuth();
-  const { setAuth, setServerResponse } = UseContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const { setAuth, setServerResponse, setLoader } = UseContext();
   const formData = new FormData();
   async function handleSubmit(e: SyntheticEvent) {
     if (isValid) {
-      setIsLoading(true);
+      setLoader(true);
       e.preventDefault();
       getFormData(formData);
       await axios
         .post("/register", formData)
         .then(({ data }) => {
           setAuth!({ ...data.user, token: data.token });
-          setIsLoading(false);
+          setLoader(false);
         })
         .catch((err: AxiosError) => {
-          setIsLoading(false);
+          setLoader(false);
           if (err.response?.status === 400) {
             setServerResponse({
               type: "error",
@@ -111,14 +110,6 @@ function Register() {
           className="p-2 blue_gradient_bg radius flex flex-column g-2 cl-w flex-1 align-center overflow-hidden relative"
           onSubmit={handleSubmit}
         >
-          {isLoading && (
-            <div className="w-100 absolute centering-content h-100 blue-bg opacity-80 smooth t-0 l-0 progress z-10000">
-              <div className="lds-ripple">
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-          )}
           <Title icon={<AiFillProfile />} title="تسجيل" color="#fff" />
           <Input
             inputName="name"
@@ -161,9 +152,7 @@ function Register() {
             handleFocusAnimation={handleFocus}
           />
           <motion.div
-            className={`w-80 pointer sunny_gradient_bg radius ${
-              isLoading && "mouse-none"
-            }`}
+            className={`w-80 pointer sunny_gradient_bg radius`}
             style={{
               border: "none",
             }}

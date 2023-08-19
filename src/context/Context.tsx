@@ -64,6 +64,8 @@ interface ContextI {
   >;
   isOverLay: boolean;
   setIsisOverLay: Dispatch<SetStateAction<boolean>>;
+  loader: boolean;
+  setLoader: Dispatch<SetStateAction<boolean>>;
 }
 const context = createContext<ContextI>({
   patientState: undefined,
@@ -78,6 +80,8 @@ const context = createContext<ContextI>({
   setServerResponse: () => {},
   isOverLay: false,
   setIsisOverLay: () => {},
+  loader: false,
+  setLoader: () => {},
 });
 
 export function Provider({ children }: { children: ReactNode }) {
@@ -91,6 +95,7 @@ export function Provider({ children }: { children: ReactNode }) {
     undefined | { type: string; content: string | ErrorI[] }
   >(undefined);
   const [isOverLay, setIsisOverLay] = useState(false);
+  const [loader, setLoader] = useState(false);
   return (
     <context.Provider
       value={{
@@ -106,6 +111,8 @@ export function Provider({ children }: { children: ReactNode }) {
         setServerResponse,
         isOverLay,
         setIsisOverLay,
+        loader,
+        setLoader,
       }}
     >
       {children}

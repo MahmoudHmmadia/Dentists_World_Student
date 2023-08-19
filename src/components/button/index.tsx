@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { SyntheticEvent } from "react";
+import { UseContext } from "../../context/Context";
 interface ButtonI {
   bgColor: string;
   icon: any;
@@ -20,6 +21,7 @@ function Button({
   valid,
   clickFunction,
 }: ButtonI) {
+  const { loader } = UseContext();
   return (
     <motion.button
       className={`radius g-1 pt-1 pb-1 pl-2 pr-2 bold centering-content smooth ${
@@ -34,6 +36,7 @@ function Button({
         duration: 0,
       }}
       onClick={clickFunction && clickFunction}
+      disabled={loader}
     >
       <span>{content}</span>
       <div className="icon flex">{icon}</div>

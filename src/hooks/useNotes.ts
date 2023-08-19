@@ -12,7 +12,7 @@ export function useNotes() {
   const noteContentRef = useRef<HTMLTextAreaElement>(null);
   const [isSeen, setIsSeen] = useState(false);
   const [isNote, setIsNote] = useState(false);
-  const { auth, setAuth, setServerResponse } = UseContext();
+  const { auth, setAuth, setServerResponse, setLoader } = UseContext();
   const { axiosPrivate } = useAxiosPrivate();
   function handleSaveNote() {
     noteContentRef.current?.value && noteTitleRef.current?.value
@@ -20,6 +20,7 @@ export function useNotes() {
       : setIsNote(false);
   }
   async function handleNotes() {
+    setLoader(true);
     await axiosPrivate
       .post(`/user/${auth?.id}/notes`, {
         id: nanoid(),
@@ -27,6 +28,7 @@ export function useNotes() {
         content: noteContentRef.current?.value,
       })
       .then((res) => {
+        setLoader(false);
         setAuth!({ ...auth, ...res.data.user });
         noteContentRef.current!.value = "";
         noteTitleRef.current!.value = "";
@@ -34,21 +36,27 @@ export function useNotes() {
         setIsNote(false);
       })
       .catch(() => {
+        setLoader(false);
         setServerResponse(SERVER_ERROR);
       });
   }
   async function deleteNote(noteId: string) {
+    setLoader(true);
     await axiosPrivate.put(`/user/${auth?.id}/notes`, { noteId }).then(() => {
+      setLoader(false);
       getNotes();
     });
   }
   async function getNotes() {
+    setLoader(true);
     await axiosPrivate
       .get(`/user/${auth?.id}/notes`)
       .then((res) => {
+        setLoader(false);
         setAuth!({ ...auth, ...res.data.user });
       })
       .catch(() => {
+        setLoader(false);
         setServerResponse(SERVER_ERROR);
       });
   }

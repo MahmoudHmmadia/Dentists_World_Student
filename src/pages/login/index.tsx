@@ -27,14 +27,13 @@ function Login() {
     clearInputs,
     reset,
   } = useAuth();
-  const { setAuth, setServerResponse } = UseContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const { setAuth, setServerResponse, setLoader } = UseContext();
   const formData = new FormData();
   async function handleSubmit(e: SyntheticEvent) {
     if (isValid) {
       e.preventDefault();
       getFormData(formData);
-      setIsLoading(true);
+      setLoader(true);
       await axios
         .post("/auth", formData, {
           withCredentials: false,
@@ -43,11 +42,11 @@ function Login() {
           },
         })
         .then(({ data }) => {
-          setIsLoading(false);
+          setLoader(false);
           setAuth!({ ...data.user, token: data.token });
         })
         .catch((err: AxiosError) => {
-          setIsLoading(false);
+          setLoader(false);
           if (err.response?.status === 401) {
             const message = {
               message: "",
@@ -91,14 +90,6 @@ function Login() {
           className="p-2 blue_gradient_bg radius flex flex-column g-2 cl-w flex-1 align-center relative overflow-hidden"
           onSubmit={handleSubmit}
         >
-          {isLoading && (
-            <div className="w-100 absolute centering-content h-100 blue-bg opacity-80 smooth t-0 l-0 progress z-10000">
-              <div className="lds-ripple">
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-          )}
           <Title icon={<FiLogIn />} title="تسجيل الدخول" color="#fff" />
           <Input
             inputName="name"

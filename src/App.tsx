@@ -15,7 +15,7 @@ import { AnimatePresence } from "framer-motion";
 import ServerResponse from "./components/serverResponse";
 
 function App() {
-  const { auth, serverResponse } = UseContext();
+  const { auth, serverResponse, loader } = UseContext();
   const [showenProfile, setShowenProfile] = useState(false);
   const location = useLocation();
   return (
@@ -25,6 +25,14 @@ function App() {
           <div className="fixed z-100000 w-100 h-100 opacity-80 black-bg"></div>
           <ServerResponse response={serverResponse} />
         </>
+      )}
+      {loader && (
+        <div className="w-100 absolute centering-content h-100 blue-bg opacity-80 smooth t-0 l-0 progress z-10000">
+          <div className="lds-ripple">
+            <div></div>
+            <div></div>
+          </div>
+        </div>
       )}
       {auth?.token ? (
         <>

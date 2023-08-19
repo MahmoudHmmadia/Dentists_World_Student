@@ -46,7 +46,10 @@ function Clinic({ name, patients }: props) {
             <ImageRenderer
               height={"auto"}
               thumb=""
-              url={`https://dentist-world-api.onrender.com/assets/xray/${
+              // url={`https://dentist-world-api.onrender.com/assets/xray/${
+              //   patients?.filter((p) => p._id === patientId)[0].xRay
+              // }`}
+              url={`http://localhost:3500//assets/xray/${
                 patients?.filter((p) => p._id === patientId)[0].xRay
               }`}
               width={"auto"}
