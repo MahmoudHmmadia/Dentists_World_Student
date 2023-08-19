@@ -21,6 +21,7 @@ function Profile() {
           height={"auto"}
           thumb=""
           url={`https://dentist-world-api.onrender.com/assets/profile/${auth?.profileImage}`}
+          // url={`http://localhost:3500/assets/profile/${auth?.profileImage}`}
           width={240}
         />
         <div className=" fs-large g-2 centering-content">

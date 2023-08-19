@@ -9,14 +9,12 @@ import Register from "./pages/register";
 import { UseContext } from "./context/Context";
 import Settings from "./pages/profile";
 import { useState } from "react";
-import Profile from "./components/profile";
 import "./sass/app.scss";
 import { AnimatePresence } from "framer-motion";
 import ServerResponse from "./components/serverResponse";
 
 function App() {
   const { auth, serverResponse, loader } = UseContext();
-  const [showenProfile, setShowenProfile] = useState(false);
   const location = useLocation();
   return (
     <div className="app flex rtl relative">
@@ -36,12 +34,6 @@ function App() {
       )}
       {auth?.token ? (
         <>
-          {showenProfile && (
-            <>
-              <div className="overlay absolute l-0 t-0 w-100 h-100 z-1000000 black-bg blue opacity-50"></div>
-              <Profile setShowenProfile={setShowenProfile} />
-            </>
-          )}
           <Sidebar />
 
           <div className="flex flex-column g-3 flex-1 overflow-hidden">
