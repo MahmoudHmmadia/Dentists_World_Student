@@ -33,8 +33,8 @@ function Sidebar() {
           <ImageRenderer
             height={""}
             thumb=""
-            // url={`https://dentist-world-api.onrender.com/assets/profile/${auth?.profileImage}`}
-            url={`http://localhost:3500/assets/profile/${auth?.profileImage}`}
+            url={`https://dentist-world-api.onrender.com/assets/profile/${auth?.profileImage}`}
+            // url={`http://localhost:3500/assets/profile/${auth?.profileImage}`}
             width={""}
           />
         </div>
